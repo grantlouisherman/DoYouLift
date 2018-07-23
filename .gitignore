@@ -9,6 +9,15 @@
 # production
 /build
 
+#data
+ARMS.json
+BACK.json
+CALVES.json
+CHEST.json
+CHEST.json
+Legs.json
+SHOULDERS.json
+
 # misc
 .DS_Store
 .env.local

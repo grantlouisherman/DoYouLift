@@ -32,11 +32,12 @@ const buildDataObjects = (category, object) => {
     case 'Calves':
       Calves.push(object);
       break;
-    return null;
+    default:
+      break;
   }
 }
 const buildDataFiles = (workout, jsonContent) => {
-  fs.writeFile(`${workout}.json`, jsonContent, 'utf8', function (err) {
+  fs.writeFile(`./data/${workout}.json`, jsonContent, 'utf8', function (err) {
       if (err) {
           console.log("An error occured while writing JSON Object to File.");
           return console.log(err);
@@ -47,21 +48,12 @@ const buildDataFiles = (workout, jsonContent) => {
 }
 const resolved_Calls =[]
 Promise.all(API_CALLS).then(calls => {
-  // console.log(calls[0].data)
   calls.forEach(call => {
     let obj = {}
     const results = call.data.results;
     results.forEach( result => {
-      const { id, name } = result.category
-      const { description, muscles, muscles_secondary, equipment } = result;
-      obj[result.name] = {
-        name,
-        description,
-        muscles,
-        muscles_secondary,
-        equipment
-      }
-      buildDataObjects(name, obj);
+      const { name } = result.category;
+      buildDataObjects(name , result);
     })
   })
 })
@@ -73,13 +65,14 @@ Promise.all(API_CALLS).then(calls => {
     const CHEST = JSON.stringify(Chest, null, 4);
     const SHOULDERS = JSON.stringify(Shoulders, null, 4);
     const CALVES = JSON.stringify(Calves, null, 4);
-    buildDataFiles('Legs', LEGS);
+    buildDataFiles('LEGS', LEGS);
     buildDataFiles('ARMS', ARMS);
     buildDataFiles('BACK', BACK);
     buildDataFiles('CHEST', CHEST);
     buildDataFiles('SHOULDERS', SHOULDERS);
     buildDataFiles('CALVES', CALVES);
 })
+.catch(err => (console.error))
 
 
 /*
