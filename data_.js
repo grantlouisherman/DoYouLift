@@ -1,6 +1,30 @@
 const axios = require('axios');
 const fs = require('fs');
 const API_CALLS = [];
+const exlcudeTheseWorkouts = ["Ausfallschritt Trizepsdrücken ü. Kopf, ß-Stange",
+"Bankdrücken Eng", "Bigmarms", "Bizeps am Kabel","Bizeps am Kabel, ß-Stange", "Bizeps Curls Mit ß-Stange",
+"Bizeps KH-Curls", "Bizeps KH-Curls Schrägbank", "Bizeps LH-Curls",
+"Dips Zwischen 2 Bänke", "Handgelenk-Beugen", "Handgelenkstreckung", "Jazz Cersixe", "KH an Scottmaschine",
+"Liegestütz", "Scott Curl KH","Costas Com Barra de Puxar", "Einarmiges Rudern KH", "Frontziehen Breit",
+"Frontziehen Eng", "Klimmzüge", "Klimmzüge an Maschine", "Kreuzheben",
+"Lat Übung in Seitlage", "Lat-Ziehen Mit Gesteckten Armen am Seilzug", "Latzug Breit Zur Brust",
+ "Latzug Eng im Untergriff Zur Brust", "Nackenziehen",
+"Přítahy v Kleče Jednoručkou", "Přítahy v Sedě s Oporou", "Rückenmaschine",
+"Rückenstrecken im Liegen (Superman) / Lying Back Extension", "Rückenübung",
+"Rudern am Tiefen Block (Seilzug)", "Rudern Eng Zum Bauch", "Rudern Vorgebeugt LH",
+"Rudern Vorgebeugt LH Reverse", "Rumunský Mrtvý Tah", "Schwimmer",
+"Bankdrücken KH", "Bankdrücken LH", "Bendž", "Brustpresse", "Kabelcross", "Kabelziehen Von Unten",
+"Liegestüzten Diamond", "Negativ Bankdrücken", "Oberer Kabelzug", "Planke zu Liegestütz", "Propadanje", "Razboj",
+"Schrägbankdrücken KH", "Schrägbankdrücken LH", "Schrägbankdrücken MP",
+"Ausfallschritte im Gehen", "Ausfallschritte Stehend", "Beinbeuger Liegend",
+"Beinbeuger Sitzend", "Beinbeuger Stehend", "Beinbeuger Stehend", "Beinpresse Eng", "Beinstrecker",
+"Beinstrecker Einbeinig", "Bicicleta Cardio", "Dřep do Sedu na Box", "Eselstritt", "Fentes Avant",
+"Feuerhydrant", "Front Kniebeuge", "Gefangenen Geht up", "Kniebeuge", "Kniebeuge an Hackenschmidtmaschine", "Kniebeuge an Multipresse - Eng",
+"Marschieren Auf Der Stelle", "Rev. Ausfallschritt", "Seitliche Ausfallschritt-Sprünge", "Bergliegestütz", "Bogenschütze", "Frontdrücken KH",
+"Frontdrücken LH", "Frontdrücken MP", "Frontheben am Kabel", "Frontheben Mit Scheibe", "Kabelzug", "Karen Meets Grace", "Nuevo",
+"Rudern Aufgelegt","Rudern Aufrecht MP","Rudern Aufrecht ß-Stange","Schulterdrücken KH","Schulterdrücken LH","Schulterdrücken LH Hinter Dem Kopf",
+"Schultermaschine","Seitheben am Kabel, Einarmig","Seitheben KH", "Seitheben Mit Theraband"];
+const isNotExcluded = name => (exlcudeTheseWorkouts.indexOf(name) == -1)
 //Legs Arms Abs Back Chest Shoulders Calves
 let Legs = [];
 let Arms = [];
@@ -53,7 +77,10 @@ Promise.all(API_CALLS).then(calls => {
     const results = call.data.results;
     results.forEach( result => {
       const { name } = result.category;
-      buildDataObjects(name , result);
+
+      if(isNotExcluded(result.name)){
+        buildDataObjects(name , result);
+      }
     })
   })
 })
@@ -65,12 +92,12 @@ Promise.all(API_CALLS).then(calls => {
     const CHEST = JSON.stringify(Chest, null, 4);
     const SHOULDERS = JSON.stringify(Shoulders, null, 4);
     const CALVES = JSON.stringify(Calves, null, 4);
-    buildDataFiles('LEGS', LEGS);
-    buildDataFiles('ARMS', ARMS);
-    buildDataFiles('BACK', BACK);
-    buildDataFiles('CHEST', CHEST);
-    buildDataFiles('SHOULDERS', SHOULDERS);
-    buildDataFiles('CALVES', CALVES);
+    buildDataFiles('legs', LEGS);
+    buildDataFiles('arms', ARMS);
+    buildDataFiles('back', BACK);
+    buildDataFiles('chest', CHEST);
+    buildDataFiles('shoulders', SHOULDERS);
+    buildDataFiles('calves', CALVES);
 })
 .catch(err => (console.error))
 

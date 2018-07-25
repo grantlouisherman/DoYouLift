@@ -4,7 +4,7 @@ import './App.css';
 
 class App extends Component {
   componentDidMount(){
-    axios.get('http://localhost:5000/api/hello')
+    axios.get('http://localhost:5000/shoulders.json')
     .then(res => {
       console.log("REST", res);
     })

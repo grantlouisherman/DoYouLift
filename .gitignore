@@ -10,13 +10,12 @@
 /build
 
 #data
-ARMS.json
-BACK.json
-CALVES.json
-CHEST.json
-CHEST.json
-Legs.json
-SHOULDERS.json
+arms.json
+back.json
+calves.json
+chest.json
+legs.json
+shoulders.json
 
 # misc
 .DS_Store
