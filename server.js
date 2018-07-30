@@ -1,39 +1,45 @@
-const express = require('express');
-const express_graphql = require('express-graphql');
-const { buildSchema } = require('graphql');
-const app = express();
-const port = process.env.PORT || 5000;
-const path = require('path');
-const bodyParser = require('body-parser');
+const { ApolloServer, gql } = require('apollo-server');
+const Arms = require('./data/arms');
 
-// GraphQL schema
-var schema = buildSchema(`
-    type Query {
-        message: String
-    }
-`);
+const typeDefs = gql`
+  type Category {
+    id: Int
+    name: String
+  }
 
-// Root resolver
-var root = {
-    message: () => 'Hello World!'
+  type Equipe {
+    id: Int
+    name: String
+  }
+
+  type Muscle {
+    id: Int
+    name: String
+    is_front: Boolean
+  }
+
+  type Workouts {
+    name: String
+    category: Category
+    description: String
+    muscles:[Muscle]
+    muscles_secondary:[Muscle]
+    equipment:[Equipe]
+  }
+
+  type Query {
+    arms: [Workouts]
+  }
+`;
+
+const resolvers = {
+  Query: {
+    arms: () => Arms,
+  },
 };
 
-app.use('/graphql', express_graphql({
-    schema: schema,
-    rootValue: root,
-    graphiql: true
-}));
+const server = new ApolloServer({ typeDefs, resolvers });
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-// middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, './data')));
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+})
