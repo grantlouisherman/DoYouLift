@@ -8,7 +8,14 @@ const Chest = require('./data/chest');
 const Legs = require('./data/legs');
 const Shoulders = require('./data/shoulders');
 
-
+const workoutLookUpTable = {
+  'arms':Arms,
+  'legs':Legs,
+  'chest': Chest,
+  'back':Back,
+  'shoulders':Shoulders,
+  'calves': Calves
+}
 const typeDefs = gql`
   type Category {
     id: Int
@@ -55,22 +62,8 @@ const resolvers = {
     shoulders: () => Shoulders,
     legs: () => Legs,
     workoutByName: (root, { type, name }) => {
-      switch(type){
-        case 'legs':
-          return Legs.find(workout => workout.name === name);
-        case 'arms':
-          return Arms.find(workout => workout.name === name);
-        case 'back':
-          return Back.find(workout => workout.name === name);
-        case 'chest':
-          return Chest.find(workout => workout.name === name);
-        case 'shoulders':
-          return Shoulders.find(workout => workout.name === name);
-        case 'calves':
-          return Calves.find(workout => workout.name === name);
-        default:
-          return 'Nothing found!';
-      }
+      return workoutLookUpTable[type] &&
+      workoutLookUpTable[type].find(workout => workout.name === name);
     }
   },
 };
