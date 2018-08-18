@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
 class SingleWorkout extends Component {
   render(){
-    { type, name } = this.props;
+    const { type, name } = this.props;
     const singleWorkoutQuery = gql`
         {
           workoutByName(type:${type}, name:${name}){
