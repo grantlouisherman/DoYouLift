@@ -36,8 +36,8 @@ class CreateRoutineContainer extends Component {
       workouts: {}
     }
   }
- filterWorkouts = () => {
-   
+ filterWorkouts = (data, value) => {
+   return data.filter(d => ( d.includes(value) ))
  }
 
  handleChange = (event) => {
@@ -56,6 +56,7 @@ class CreateRoutineContainer extends Component {
               currentValue={this.state.currentValue}
               handleChange={this.handleChange}
               workouts={combineData(data)}
+              filterWorkouts={this.filterWorkouts}
               />
           </div>
         );
