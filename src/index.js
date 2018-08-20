@@ -15,7 +15,7 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path='/' component={App}/>
-      <Route path='/:workoutName' component={SingleWorkout}/>
+      <Route path='/:type/:workoutName' component={SingleWorkout}/>
     </Switch>
   )
 }
