@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
+import { Link } from 'react-router-dom'
+
+import WorkoutProfile from './WorkoutProfile';
 
 class SingleWorkout extends Component {
   render(){
@@ -33,11 +36,12 @@ class SingleWorkout extends Component {
       {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;
         if (error) return <p>Error :(</p>;
-        console.log(data)
         return  (
           <div>
-            Hi
+            <Link to="/">Home</Link>
+            <WorkoutProfile {...data.workoutByName} />
           </div>
+
         );
       }}
     </Query>

@@ -37,7 +37,7 @@ class CreateRoutineContainer extends Component {
     }
   }
  filterWorkouts = (data, value) => {
-   return data.filter(d => ( d.includes(value) ))
+   return data.filter(d => ( d.name.includes(value) ))
  }
 
  handleChange = (event) => {
